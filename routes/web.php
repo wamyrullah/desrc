@@ -2,6 +2,7 @@
 
 use App\Livewire\Pages\Dashboard;
 use App\Livewire\Pages\Inventory;
+use App\Livewire\Pages\Rider;
 use App\Livewire\Settings\Profile;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Appearance;
@@ -13,7 +14,10 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
-    Route::get('/inventory', Inventory::class)->name('inventory');
+    Route::middleware('role:super_admin|admin')->group(function () {
+        Route::get('/inventory', Inventory::class)->name('inventory');
+        Route::get('/rider', Rider::class)->name('rider');
+    });
 
     Route::redirect('settings', 'settings/profile');
     Route::get('settings/profile', Profile::class)->name('settings.profile');

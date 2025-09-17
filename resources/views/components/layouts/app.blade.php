@@ -5,7 +5,7 @@
 <body class="bg-white dark:bg-gray-900 antialiased">
 
     <header>
-        <x-layouts.app.navbar />
+        <livewire:partials.navbar />
     </header>
 
     <main>
@@ -14,6 +14,18 @@
             {{ $slot }}
         </div>
     </main>
+
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.on('close-modal', (data) => {
+                const modalEl = document.getElementById(data.id);
+                if (modalEl) {
+                    const modal = new Modal(modalEl);
+                    modal.hide();
+                }
+            });
+        });
+    </script>
 
 </body>
 
